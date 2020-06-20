@@ -1,13 +1,15 @@
 {
   "name": "nautilus-nodejs-api-core",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "Base repository for creating microservices",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "prepublish": "npm run build",
     "start": "cross-env NODE_PATH=. npm run build && node build/index.ts",
     "dev": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./dist && tsc",
     "lint": "eslint {src,test,config}/**/*.ts"
   },
   "repository": {
