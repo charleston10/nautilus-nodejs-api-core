@@ -1,0 +1,32 @@
+{
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
+  "compileOnSave": false,
+  "include": [
+    "src/**/*.ts"
+  ],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "outDir": "./build",
+    "strict": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "lib": [
+      "es6",
+      "es7"
+    ]
+  }
+}
