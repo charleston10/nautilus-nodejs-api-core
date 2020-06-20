@@ -16,6 +16,12 @@ Install with `npm`
 
 ```npm install awilix --save```
 
+## Sample
+
+Repo https://github.com/charleston10/nautilus-nodejs-api-users-sample.git
+
+```git clone https://github.com/charleston10/nautilus-nodejs-api-users-sample.git```
+
 ## Usage
 
 This configuration based in Clean Architecture
