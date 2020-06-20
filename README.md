@@ -10,29 +10,6 @@ To facilitate integration and development, the Clean architecture concept is use
 
 It is possible to make declarations from Mappers, Entities, Model, Repositories, UseCase, Controllers etc.
 
-APIs focused on separation of concerns and scalability with Clean Architecture
-
-- **Multilayer folder structure:**
-Code organization inspired by DDD and Clean Architecture focused on codebase scalability.
-
-- **Scalable and easy to use web server:**
-Use Express for requests routing and middlewares. There are some essential middlewares for web APIs already setup, like body-parser, compression, CORS and method-override.
-
-- **Database integration:**
-Sequelize, an ORM for SQL databases, is already integrated, you just have to set the authentication configurations.
-
-- **Prepared for testing:**
-The test suite uses Mocha/Chai and is prepared to run unit, integration and functional tests right from the beginning. There are helpers to make it easy to make requests to the web app during the tests and for cleaning the database after each test. A FactoryGirl adapter for Sequelize is setup to make your tests DRY as well, and the tests generate code coverage measurement with Istanbul. You should read about the Chai plugins that are setup by default too.
-
-- **Dependency injection:**
-With Awilix, a practical dependency injection library, the code will not be coupled and it'll still be easy to resolve automatically the dependencies on the runtime and mock them during the tests. It's even possible inject dependencies on your controllers with the Awilix Express adapter. Click here if you want to read more about how to use dependency injection with this boilerplate.
-
-- **Logging:**
-The Log4js logger is highly pluggable, being able to append the messages to a file during the development and send them to a logging service when on production. Even the requests (through morgan) and queries will be logged.
-
-- **Linter:**
-It's also setup with ESLint to make it easy to ensure a code styling and find code smells.
-
 ## Installation
 
 Install with `npm`
