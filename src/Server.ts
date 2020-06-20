@@ -35,7 +35,7 @@ class Server {
     start(port: Number) {
         this._express
             .listen(port, () => {
-                this._logger.info(`[p ${process.pid}] Listening at port ${port} and running enviroment ${process.env.NODE_ENV}`);
+                this._logger.info(`[p ${process.pid}][${process.env.NODE_ENV}][${port}] Server is running`);
             })
     }
 
