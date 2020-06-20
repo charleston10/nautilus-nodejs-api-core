@@ -1,15 +1,16 @@
 {
   "exclude": [
     "node_modules",
-    "build"
+    "dist"
   ],
+  "declaration": true,
   "compileOnSave": false,
   "include": [
     "src/**/*.ts"
   ],
   "compilerOptions": {
     "esModuleInterop": true,
-    "outDir": "./build",
+    "outDir": "./dist",
     "strict": true,
     "strictNullChecks": true,
     "experimentalDecorators": true,
