@@ -37,7 +37,7 @@ It's also setup with ESLint to make it easy to ensure a code styling and find co
 
 Install with `npm`
 
-```npm install awilix --save```
+```npm i nautilus-nodejs-api-core --save```
 
 ## Sample
 
