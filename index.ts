@@ -1,7 +1,6 @@
 import {
     container,
     application,
-    database,
     logger
 } from './src/Container';
 
