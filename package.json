@@ -1,0 +1,50 @@
+{
+  "name": "nautilus-nodejs-api-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./build && tsc",
+    "lint": "eslint {src,test,config}/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charleston10/nautilus-nodejs-api-core.git"
+  },
+  "author": "charleston anjos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/charleston10/nautilus-nodejs-api-core/issues"
+  },
+  "homepage": "https://github.com/charleston10/nautilus-nodejs-api-core#readme",
+  "devDependencies": {
+    "@types/compression": "^1.7.0",
+    "@types/cors": "^2.8.6",
+    "@types/express-status-monitor": "^1.2.1",
+    "@types/method-override": "0.0.31",
+    "@types/morgan": "^1.9.0",
+    "eslint": "^7.1.0"
+  },
+  "dependencies": {
+    "awilix": "^4.2.6",
+    "awilix-express": "^3.0.0",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-status-monitor": "^1.3.2",
+    "http-status": "^1.4.2",
+    "log4js": "^6.3.0",
+    "method-override": "^3.0.0",
+    "morgan": "^1.9.0",
+    "node": "^14.0.5",
+    "nodemon": "^2.0.4",
+    "pg": "^8.2.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
+  }
+}
