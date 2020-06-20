@@ -22,3 +22,6 @@ coverage/
 
 # Packages Lock Json
 package-lock.json
+
+# Build
+build/
