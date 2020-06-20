@@ -2,10 +2,10 @@ import {
     container,
     application,
     logger
-} from './src/Container';
+} from './src';
 
 application
-    .register(container)   
+    .register(container)
     .start(process.env.PORT || 3000)
     .catch((e: any) => {
         logger.error(e.stack);
