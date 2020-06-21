@@ -39,6 +39,10 @@ class Server {
             })
     }
 
+    express() {
+        return this._express;
+    }
+
     private _config() {
         this._express.disable('x-powered-by');
 

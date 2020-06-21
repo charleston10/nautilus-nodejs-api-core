@@ -23,11 +23,13 @@ container
 
 const application = (container.resolve('application') as Application);
 const database = (container.resolve('database') as Database);
+const server = (container.resolve('server') as Server);
 const logger: any = container.resolve('logger');
 
 export {
     container,
     application,
     database,
-    logger
+    logger,
+    server
 }
