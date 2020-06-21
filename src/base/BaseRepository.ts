@@ -2,8 +2,8 @@ import ValidateException from '../errors/exceptions/ValidateException';
 
 class BaseRepository {
 
-    private entity: any;
-    private mapper: any;
+    protected entity: any;
+    protected mapper: any;
 
     constructor(entity: any, mapper: any) {
         this.entity = entity;
@@ -74,7 +74,7 @@ class BaseRepository {
         return await this.entity.count();
     }
 
-    private async _getById(id: Number) {
+    protected async _getById(id: Number) {
         try {
             let data = await this.entity.findOne({ where: { id: id } }, { rejectOnEmpty: true });
 
@@ -88,7 +88,7 @@ class BaseRepository {
         }
     }
 
-    private _errorNotFound(id: Number) {
+    protected _errorNotFound(id: Number) {
         throw new ValidateException('NotFoundError', `Object with id ${id} can't be found.`);
     }
 }
