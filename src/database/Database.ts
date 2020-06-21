@@ -41,7 +41,7 @@ class Database {
     }
 
     sequelize() {
-        return this.sequelize;
+        return this._sequelize;
     }
 
     entitiesLoaded() {
