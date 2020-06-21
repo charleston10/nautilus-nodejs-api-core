@@ -14,7 +14,7 @@ class BaseRepository {
         return this.entity.sequelize.transaction();
     }
 
-    async getAll(...args: string[]) {
+    async getAll(...args: any[]) {
         const list = await this.entity.findAll(...args);
         return list.map(this.mapper.toModel);
     }
