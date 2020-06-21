@@ -26,3 +26,6 @@ package-lock.json
 # Build
 build/
 dist/
+
+# Scripts
+*.sh
