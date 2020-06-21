@@ -8,6 +8,7 @@ class Database {
     private _logger: any;
     private _sequelize: any;
     private _pathEntities: string = "";
+    private _entitiesLoaded: any;
 
     constructor({ logger }: any) {
         this._logger = logger;
@@ -43,6 +44,10 @@ class Database {
         return this.sequelize;
     }
 
+    entitiesLoaded() {
+        return this._entitiesLoaded;
+    }
+
     private _config() {
         const dialect: any = process.env.DB_DIALECT
 
@@ -71,18 +76,18 @@ class Database {
      * Declare all entities how to object injetable
      */
     private _loadEntity() {
-        const loaded = loader(
+        this._entitiesLoaded = loader(
             this._sequelize,
             this._pathEntities
         );
 
-        loaded.forEach((_element: any) => {
+        this._entitiesLoaded.forEach((_element: any) => {
             const injectable: any = {};
             injectable[_element.entityRefer] = asValue(_element.table);
             this._container.register(injectable)
         });
 
-        this._logger.info('[database] loaded entities', loaded);
+        this._logger.info('[database] loaded entities', this._entitiesLoaded);
     }
 }
 
