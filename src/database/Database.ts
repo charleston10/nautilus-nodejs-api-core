@@ -52,6 +52,7 @@ class Database {
 
     options(options: any){
         this._options = options;
+        return this;
     }
 
     private _config() {
