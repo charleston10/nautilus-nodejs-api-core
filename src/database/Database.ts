@@ -9,6 +9,7 @@ class Database {
     private _sequelize: any;
     private _pathEntities: string = "";
     private _entitiesLoaded: any;
+    private _options: any;
 
     constructor({ logger }: any) {
         this._logger = logger;
@@ -21,7 +22,8 @@ class Database {
 
     connect(options: any) {
         if (options || process.env.DB_NAME) {
-            this._config(options);
+            this._options = options;
+            this._config();
             this._connect();
             this._loadEntity();
         } else {
@@ -48,16 +50,21 @@ class Database {
         return this._entitiesLoaded;
     }
 
-    private _config(options: any) {
-        const dialect: any = options?.dialect || process.env.DB_DIALECT
+    options(options: any){
+        this._options = options;
+    }
+
+    private _config() {
+        const dialect: any = this._options?.dialect || process.env.DB_DIALECT
 
         this._sequelize = new Sequelize(
-            options?.dbName || process.env.DB_NAME || "",
-            options?.dbUsername || process.env.DB_USERNAME || "",
-            options?.dbPassword || process.env.DB_PASSWORD || "",
+            this._options?.dbName || process.env.DB_NAME || "",
+            this._options?.dbUsername || process.env.DB_USERNAME || "",
+            this._options?.dbPassword || process.env.DB_PASSWORD || "",
             {
-                host: options?.dbHost || process.env.DB_HOST || "",
-                dialect: dialect
+                host: this._options?.dbHost || process.env.DB_HOST || "",
+                dialect: dialect,
+                logging: this._options?.logging || true
             }
         );
     }
@@ -65,7 +72,7 @@ class Database {
     private _connect() {
         this._sequelize.authenticate()
             .then(() => {
-                this._logger.info(`[database] ${process.env.DB_NAME} connected`);
+                this._logger.info(`[database] ${this._options.dbName || process.env.DB_NAME} connected`);
             })
             .catch((err: any) => {
                 this._logger.error(`[database] error in connection`, err);
