@@ -49,14 +49,14 @@ class Database {
     }
 
     private _config(options: any) {
-        const dialect: any = options.dialect || process.env.DB_DIALECT
+        const dialect: any = options?.dialect || process.env.DB_DIALECT
 
         this._sequelize = new Sequelize(
-            options.dbName || process.env.DB_NAME || "",
-            options.dbUsername || process.env.DB_USERNAME || "",
-            options.dbPassword || process.env.DB_PASSWORD || "",
+            options?.dbName || process.env.DB_NAME || "",
+            options?.dbUsername || process.env.DB_USERNAME || "",
+            options?.dbPassword || process.env.DB_PASSWORD || "",
             {
-                host: options.dbHost || process.env.DB_HOST || "",
+                host: options?.dbHost || process.env.DB_HOST || "",
                 dialect: dialect
             }
         );
