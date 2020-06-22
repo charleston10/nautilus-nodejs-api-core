@@ -86,8 +86,6 @@ class Database {
             injectable[_element.entityRefer] = asValue(_element.table);
             this._container.register(injectable)
         });
-
-        this._logger.info('[database] loaded entities', this._entitiesLoaded);
     }
 }
 
