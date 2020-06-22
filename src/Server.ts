@@ -6,6 +6,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import methodOverride from 'method-override';
+import sanitized from 'express-sanitized'
 
 class Server {
 
@@ -51,6 +52,7 @@ class Server {
             .use(cors())
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({ extended: true }))
+            .use(sanitized())
             .use(compression())
             .use(this._loggerMiddleware)
             .use(this._errorHandler);
