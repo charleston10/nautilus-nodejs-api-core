@@ -20,7 +20,7 @@ class Database {
         return this;
     }
 
-    connect(options: any) {
+    connect(options: any = null) {
         if (options || process.env.DB_NAME) {
             this._options = options;
             this._config();
@@ -50,7 +50,7 @@ class Database {
         return this._entitiesLoaded;
     }
 
-    options(options: any){
+    options(options: any) {
         this._options = options;
         return this;
     }

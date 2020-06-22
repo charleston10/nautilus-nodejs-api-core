@@ -1,11 +1,13 @@
 import { Lifetime } from 'awilix';
 import Injector from './Injector';
+import Server from './Server';
+import Database from './database/Database';
 
 class Application {
 
-    private _server: any;
+    private _server: Server;
+    private _database: Database;
     private _container: any;
-    private _database: any;
 
     constructor({ server, database }: any) {
         this._server = server;
@@ -42,7 +44,7 @@ class Application {
 
     loadDatabase(database: any) {
         this._database = database;
-        this._database.connect();
+        this._database.connect()
         return this;
     }
 
@@ -62,6 +64,14 @@ class Application {
         });
 
         return this;
+    }
+
+    getDatabase() {
+        return this._database;
+    }
+
+    getServer() {
+        return this._server;
     }
 
     private _registerClass(injectable: any) {
