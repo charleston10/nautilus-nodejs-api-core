@@ -50,6 +50,7 @@ class Server {
             .use(methodOverride('X-HTTP-Method-Override'))
             .use(cors())
             .use(bodyParser.json())
+            .use(bodyParser.urlencoded({ extended: true }))
             .use(compression())
             .use(this._loggerMiddleware)
             .use(this._errorHandler);
