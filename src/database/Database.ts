@@ -19,9 +19,9 @@ class Database {
         return this;
     }
 
-    connect() {
-        if (process.env.DB_NAME) {
-            this._config();
+    connect(options: any) {
+        if (options || process.env.DB_NAME) {
+            this._config(options);
             this._connect();
             this._loadEntity();
         } else {
@@ -48,15 +48,15 @@ class Database {
         return this._entitiesLoaded;
     }
 
-    private _config() {
-        const dialect: any = process.env.DB_DIALECT
+    private _config(options: any) {
+        const dialect: any = options.dialect || process.env.DB_DIALECT
 
         this._sequelize = new Sequelize(
-            process.env.DB_NAME || "",
-            process.env.DB_USERNAME || "",
-            process.env.DB_PASSWORD || "",
+            options.dbName || process.env.DB_NAME || "",
+            options.dbUsername || process.env.DB_USERNAME || "",
+            options.dbPassword || process.env.DB_PASSWORD || "",
             {
-                host: process.env.DB_HOST || "",
+                host: options.dbHost || process.env.DB_HOST || "",
                 dialect: dialect
             }
         );
