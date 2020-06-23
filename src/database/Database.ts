@@ -22,7 +22,7 @@ class Database {
 
     connect(options: any = null) {
         if (options || process.env.DB_NAME) {
-            this._options = options;
+            if (!this._options) this._options = options;
             this._config();
             this._connect();
             this._loadEntity();
