@@ -73,7 +73,7 @@ class Database {
     private _connect() {
         this._sequelize.authenticate()
             .then(() => {
-                this._logger.info(`[database] ${this._options.dbName || process.env.DB_NAME} connected`);
+                this._logger.info(`[database] ${this._options?.dbName || process.env.DB_NAME} connected`);
             })
             .catch((err: any) => {
                 this._logger.error(`[database] error in connection`, err);
