@@ -9,7 +9,7 @@ class Database {
     private _sequelize: any;
     private _pathEntities: string = "";
     private _entitiesLoaded: any;
-    private _options: any;
+    private _configuration: any;
 
     constructor({ logger }: any) {
         this._logger = logger;
@@ -20,9 +20,9 @@ class Database {
         return this;
     }
 
-    connect(options: any = null) {
-        if (options || process.env.DB_NAME) {
-            if (!this._options) this._options = options;
+    connect(configuration: any = null) {
+        if (configuration || process.env.DB_NAME) {
+            if (!this._configuration) this._configuration = configuration;
             this._config();
             this._connect();
             this._loadEntity();
@@ -51,21 +51,21 @@ class Database {
     }
 
     options(options: any) {
-        this._options = options;
+        this._configuration = options;
         return this;
     }
 
     private _config() {
-        const dialect: any = this._options?.dialect || process.env.DB_DIALECT
+        const dialect: any = this._configuration?.dialect || process.env.DB_DIALECT
 
         this._sequelize = new Sequelize(
-            this._options?.dbName || process.env.DB_NAME || "",
-            this._options?.dbUsername || process.env.DB_USERNAME || "",
-            this._options?.dbPassword || process.env.DB_PASSWORD || "",
+            this._configuration?.dbName || process.env.DB_NAME || "",
+            this._configuration?.dbUsername || process.env.DB_USERNAME || "",
+            this._configuration?.dbPassword || process.env.DB_PASSWORD || "",
             {
-                host: this._options?.dbHost || process.env.DB_HOST || "",
+                host: this._configuration?.dbHost || process.env.DB_HOST || "",
                 dialect: dialect,
-                logging: this._options?.logging || true
+                ...this._configuration?.options
             }
         );
     }
@@ -73,7 +73,7 @@ class Database {
     private _connect() {
         this._sequelize.authenticate()
             .then(() => {
-                this._logger.info(`[database] ${this._options?.dbName || process.env.DB_NAME} connected`);
+                this._logger.info(`[database] ${this._configuration?.dbName || process.env.DB_NAME} connected`);
             })
             .catch((err: any) => {
                 this._logger.error(`[database] error in connection`, err);
