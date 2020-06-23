@@ -20,8 +20,13 @@ class Application {
         return this;
     }
 
-    async start(port: any) {
+    async startServer(port: any) {
         this._server.start(port);
+        return this;
+    }
+
+    startDatabase(){
+        this._database.connect();
         return this;
     }
 
@@ -44,7 +49,6 @@ class Application {
 
     loadDatabase(database: any) {
         this._database = database;
-        this._database.connect()
         return this;
     }
 
