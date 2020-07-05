@@ -11,6 +11,7 @@ class Database {
     private _pathEntities: string = "";
     private _entitiesLoaded: any;
     private _configuration: any;
+    private _isTest = false
 
     constructor({ logger }: any) {
         this._logger = logger;
@@ -24,7 +25,7 @@ class Database {
     connect(configuration: any = null) {
         if (configuration || process.env.DB_NAME) {
             if (!this._configuration) this._configuration = configuration;
-            this._config();
+            if (!this._isTest) this._config();
             this._connect();
             this._loadEntity();
         } else {
@@ -57,8 +58,9 @@ class Database {
     }
 
     test(configuration: any = null) {
+        this._isTest = true
         const dialect: any = configuration?.dialect
-        
+
         this._sequelize = new Sequelize(
             configuration?.dbName || "",
             configuration?.dbUsername || "",
