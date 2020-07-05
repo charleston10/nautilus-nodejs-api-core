@@ -75,6 +75,8 @@ class Application {
         middlewares.forEach(element => {
             this._server.addMidleware(element)
         });
+        
+        return this;
     }
 
     getDatabase() {
