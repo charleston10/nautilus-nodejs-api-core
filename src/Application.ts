@@ -25,7 +25,7 @@ class Application {
         return this;
     }
 
-    startDatabase(){
+    startDatabase() {
         this._database.connect();
         return this;
     }
@@ -68,6 +68,12 @@ class Application {
         });
 
         return this;
+    }
+
+    loadMiddleware(middlewares: Array<any>) {
+        middlewares.forEach(element => {
+            this._server.addMidleware(element)
+        });
     }
 
     getDatabase() {

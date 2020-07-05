@@ -44,6 +44,10 @@ class Server {
         return this._express;
     }
 
+    addMidleware(middleware: any) {
+        this._router.use(middleware)
+    }
+
     private _config() {
         this._express.disable('x-powered-by');
 
