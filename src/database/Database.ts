@@ -56,12 +56,18 @@ class Database {
         return this;
     }
 
-    test(options: any = null) {
-        if (options) {
-            this._sequelize = new Sequelize(options)
-        } else {
-            this._sequelize = new Sequelize('sqlite::memory:')
-        }
+    test(configuration: any = null) {
+        const dialect: any = configuration?.dialect
+        
+        this._sequelize = new Sequelize(
+            configuration?.dbName || "",
+            configuration?.dbUsername || "",
+            configuration?.dbPassword || "",
+            {
+                host: configuration?.dbHost || "",
+                dialect: dialect,
+                ...configuration?.options
+            })
 
         return this;
     }
