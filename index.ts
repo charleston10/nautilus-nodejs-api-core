@@ -6,7 +6,7 @@ import {
 
 application
     .register(container)
-    .start(process.env.PORT || 3000)
+    .startServer(process.env.PORT || 3000)
     .catch((e: any) => {
         logger.error(e.stack);
         process.exit();
