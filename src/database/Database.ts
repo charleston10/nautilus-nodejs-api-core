@@ -51,8 +51,20 @@ class Database {
         return this._entitiesLoaded;
     }
 
-    options(options: any) {
+    configure(options: any) {
         this._configuration = options;
+        return this;
+    }
+
+    test(options: any = null) {
+        if (options) {
+            this._sequelize = new Sequelize(options)
+        } else {
+            this._sequelize = new Sequelize('sqlite::memory:')
+        }
+
+        this._sequelize.query('CREATE DATABASE IF NOT EXISTS dbTest', { raw: true });
+
         return this;
     }
 
