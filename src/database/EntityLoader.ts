@@ -2,13 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import { load } from 'dotenv/types';
 
+const getExt = (filenName: any) => {
+    return filenName.slice((Math.max(0, filenName.lastIndexOf(".")) || Infinity) + 1)
+}
+
+const isIndex = (filenName: any) => {
+    return filenName.split(`.`)[0] == `index`
+}
+
 export const loader = (database: any, baseFolder: string) => {
     const loaded: any = [];
+    const extSupported = [`ts`, `js`]
 
     fs
         .readdirSync(baseFolder)
         .filter((file) => {
-            return (file.indexOf('.') !== 0) && (file !== "index.ts") && (file.slice(-3) === '.ts');
+            const isFileSupported = extSupported.includes(getExt(file));
+            return (file.indexOf('.') !== 0) && !isIndex(file) && isFileSupported;
         })
         .forEach((file) => {
             const model = database['import'](path.join(baseFolder, file));

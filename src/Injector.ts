@@ -15,13 +15,14 @@ const __instanceObject = (instance: any, type: any) => {
 };
 
 const __inject = (baseFolder: string, type: string) => {
-    var indexFile = 'index.ts';
+    const extSupported = [`ts`, `js`]
     var instances: any = [];
 
     fs
         .readdirSync(baseFolder)
         .filter((file: any) => {
-            return (file.indexOf('.') !== 0) && (file !== indexFile) && (file.slice(-3) === '.ts');
+            const isFileSupported = extSupported.includes(_getExt(file));
+            return (file.indexOf('.') !== 0) && !_isIndex(file) && isFileSupported;
         })
         .forEach((file: any) => {
             let instance = require(path.join(baseFolder, file));
@@ -33,6 +34,14 @@ const __inject = (baseFolder: string, type: string) => {
 
     return instances;
 };
+
+const _getExt = (filenName: any) => {
+    return filenName.slice((Math.max(0, filenName.lastIndexOf(".")) || Infinity) + 1)
+}
+
+const _isIndex = (filenName: any) => {
+    return filenName.split(`.`)[0] == `index`
+}
 
 export default {
     injectClass: (baseFolder: string) => __inject(baseFolder, 'class'),
