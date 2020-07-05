@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { load } from 'dotenv/types';
 
 const getExt = (filenName: any) => {
     return filenName.slice((Math.max(0, filenName.lastIndexOf(".")) || Infinity) + 1)
