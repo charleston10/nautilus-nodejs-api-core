@@ -2,6 +2,7 @@ import { Lifetime } from 'awilix';
 import Injector from './Injector';
 import Server from './Server';
 import Database from './database/Database';
+import path from "path"
 
 class Application {
 
@@ -52,18 +53,18 @@ class Application {
         return this;
     }
 
-    loadClass(path: Array<String>, basePath: string) {
-        path.forEach(element => {
-            const injectable = Injector.injectClass(`${basePath}\\${element}`);
+    loadClass(paths: Array<String>, basePath: string) {
+        paths.forEach((element: any) => {
+            const injectable = Injector.injectClass(path.join(basePath, element));
             this._registerClass(injectable);
         });
 
         return this;
     }
 
-    loadValues(path: Array<String>, basePath: string) {
-        path.forEach(element => {
-            const injectable = Injector.injectValue(`${basePath}\\${element}`);
+    loadValues(paths: Array<String>, basePath: string) {
+        paths.forEach((element: any) => {
+            const injectable = Injector.injectValue(path.join(basePath, element));
             this._registerClass(injectable);
         });
 
