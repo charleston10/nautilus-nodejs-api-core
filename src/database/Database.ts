@@ -63,8 +63,6 @@ class Database {
             this._sequelize = new Sequelize('sqlite::memory:')
         }
 
-        this._sequelize.query('CREATE DATABASE IF NOT EXISTS dbTest', { raw: true });
-
         return this;
     }
 
