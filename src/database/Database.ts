@@ -1,6 +1,7 @@
 import { loader } from './EntityLoader';
 import { Sequelize } from 'sequelize';
 import { asValue } from 'awilix';
+import path from "path"
 
 class Database {
 
@@ -37,8 +38,8 @@ class Database {
         return this;
     }
 
-    loadEntity(path: string, basePath: string) {
-        this._pathEntities = `${basePath}\\${path}`;
+    loadEntity(pathFile: string, basePath: string) {
+        this._pathEntities = path.join(basePath, pathFile)
         return this;
     }
 
