@@ -57,19 +57,24 @@ class Database {
         return this;
     }
 
-    test(configuration: any = null) {
+    test(configuration: any = null, custom: boolean = false) {
         this._isTest = true
-        const dialect: any = configuration?.dialect
 
-        this._sequelize = new Sequelize(
-            configuration?.dbName || "",
-            configuration?.dbUsername || "",
-            configuration?.dbPassword || "",
-            {
-                host: configuration?.dbHost || "",
-                dialect: dialect,
-                ...configuration?.options
-            })
+        if (custom) {
+            this._sequelize = new Sequelize(configuration)
+        } else {
+            const dialect: any = configuration?.dialect
+
+            this._sequelize = new Sequelize(
+                configuration?.dbName || "",
+                configuration?.dbUsername || "",
+                configuration?.dbPassword || "",
+                {
+                    host: configuration?.dbHost || "",
+                    dialect: dialect,
+                    ...configuration?.options
+                })
+        }
 
         return this;
     }
