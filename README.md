@@ -42,22 +42,11 @@ import {
     logger
 } from 'nautilus-nodejs-api-core';
 
-//create register database
-//is used sequelize for create the configuration
-//the config database is .env
-database
-    .register(container)
-    .loadEntity(path.join(`data`, `local`, `entities`), __dirname);//import entities of datbase
-
 //create all config the application
 //register mappers, model, repository, usecase and controllers
 //all classes and files will be available to be injected in context of application
 application
     .register(container)
-    .loadMiddleware([
-        path.join(`core`, `middleware`)
-    ], __dirname
-    )
     .loadValues([
         path.join(`data`, `mappers`), 
         path.join(`domain`, `model`)
@@ -69,6 +58,9 @@ application
     .loadRoutes(
         path.join(`presentation`, `controllers`, `*.*`)
     , __dirname)//declares routes from api to server
+    .loadMiddleware([
+        path.join(`core`, `middleware`)
+    ], __dirname)//load middlewares
     .loadDatabase(
         database
             .register(container)
@@ -78,7 +70,8 @@ application
                 __dirname
             )
     )
-    .start(process.env.PORT || 3000)//get informations by .env
+    .startDatabase()
+    .startServer(process.env.PORT || 3000)//get informations by .env
     .catch((e: any) => {
         logger.error(e.stack);//log all error stack
         process.exit();
