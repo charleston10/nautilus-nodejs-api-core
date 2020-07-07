@@ -1,8 +1,10 @@
 import { Lifetime } from 'awilix';
+import path from "path"
+
 import Injector from './Injector';
 import Server from './Server';
 import Database from './database/Database';
-import path from "path"
+import FileUtil from './FileUtil';
 
 class Application {
 
@@ -71,11 +73,17 @@ class Application {
         return this;
     }
 
-    loadMiddleware(middlewares: Array<any>) {
-        middlewares.forEach(element => {
-            this._server.addMidleware(element)
+    loadMiddleware(paths: Array<String>, basePath: string) {
+        const fileUtil = new FileUtil()
+
+        paths.forEach((element: any) => {
+            const middlewares = fileUtil.getInstances(path.join(basePath, element))
+
+            middlewares.reverse().forEach((middleware:any) => {
+                this._server.addMidleware(middleware)
+            })
         });
-        
+
         return this;
     }
 
