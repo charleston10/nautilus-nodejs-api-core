@@ -83,7 +83,6 @@ class Database {
         const dialect: any = this._configuration?.dialect || process.env.DB_DIALECT
 
         this._sequelize = new Sequelize(
-            this._configuration?.dbName || process.env.DB_NAME || "",
             this._configuration?.dbUsername || process.env.DB_USERNAME || "",
             this._configuration?.dbPassword || process.env.DB_PASSWORD || "",
             {
@@ -97,7 +96,11 @@ class Database {
     private _connect() {
         this._sequelize.authenticate()
             .then(() => {
-                this._logger.info(`[database] ${this._configuration?.dbName || process.env.DB_NAME} connected`);
+                if (this._isTest) {
+                    this._logger.info(`[database] test connected`);
+                }else{
+                    this._logger.info(`[database] ${this._configuration?.dbName || process.env.DB_NAME} connected`);
+                }
             })
             .catch((err: any) => {
                 this._logger.error(`[database] error in connection`, err);
