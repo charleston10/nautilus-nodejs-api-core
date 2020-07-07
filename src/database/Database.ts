@@ -22,10 +22,8 @@ class Database {
         return this;
     }
 
-    connect(configuration: any = null) {
-        if (configuration || process.env.DB_NAME) {
-            if (!this._configuration) this._configuration = configuration;
-            if (!this._isTest) this._config();
+    connect() {
+        if (this._configuration) {
             this._connect();
             this._loadEntity();
         } else {
@@ -52,55 +50,29 @@ class Database {
         return this._entitiesLoaded;
     }
 
-    configure(options: any) {
-        this._configuration = options;
+    /**
+     * Configure sequelize connection
+     * 
+     * @param configuration {object}
+     */
+    configure(configuration: any) {
+        this._configuration = configuration;
+
+        this._sequelize = new Sequelize(this._configuration)
+
         return this;
     }
 
-    test(configuration: any = null, custom: boolean = false) {
+    test() {
         this._isTest = true
-
-        if (custom) {
-            this._sequelize = new Sequelize(configuration)
-        } else {
-            const dialect: any = configuration?.dialect
-
-            this._sequelize = new Sequelize(
-                configuration?.dbName || "",
-                configuration?.dbUsername || "",
-                configuration?.dbPassword || "",
-                {
-                    host: configuration?.dbHost || "",
-                    dialect: dialect,
-                    ...configuration?.options
-                })
-        }
-
         return this;
-    }
-
-    private _config() {
-        const dialect: any = this._configuration?.dialect || process.env.DB_DIALECT
-
-        this._sequelize = new Sequelize(
-            this._configuration?.dbUsername || process.env.DB_USERNAME || "",
-            this._configuration?.dbPassword || process.env.DB_PASSWORD || "",
-            {
-                host: this._configuration?.dbHost || process.env.DB_HOST || "",
-                dialect: dialect,
-                ...this._configuration?.options
-            }
-        );
     }
 
     private _connect() {
         this._sequelize.authenticate()
             .then(() => {
-                if (this._isTest) {
-                    this._logger.info(`[database] test connected`);
-                }else{
-                    this._logger.info(`[database] ${this._configuration?.dbName || process.env.DB_NAME} connected`);
-                }
+                const mode = (this._isTest) ? "[test]" : ""
+                this._logger.info(`[database]${mode} ${this._configuration.database} connected`);
             })
             .catch((err: any) => {
                 this._logger.error(`[database] error in connection`, err);
@@ -111,16 +83,18 @@ class Database {
      * Declare all entities how to object injetable
      */
     private _loadEntity() {
-        this._entitiesLoaded = loader(
-            this._sequelize,
-            this._pathEntities
-        );
+        if (this._pathEntities) {
+            this._entitiesLoaded = loader(
+                this._sequelize,
+                this._pathEntities
+            );
 
-        this._entitiesLoaded.forEach((_element: any) => {
-            const injectable: any = {};
-            injectable[_element.entityRefer] = asValue(_element.table);
-            this._container.register(injectable)
-        });
+            this._entitiesLoaded.forEach((_element: any) => {
+                const injectable: any = {};
+                injectable[_element.entityRefer] = asValue(_element.table);
+                this._container.register(injectable)
+            });
+        }
     }
 }
 
