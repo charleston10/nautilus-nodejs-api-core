@@ -33,6 +33,8 @@ This configuration based in Clean Architecture
 (output response htttp) Data -> Domain -> Presentation 
 
 ```javascript
+import path from "path"
+
 import {
     container,
     application,
@@ -45,19 +47,37 @@ import {
 //the config database is .env
 database
     .register(container)
-    .loadEntity(`data\\local\\entities`, __dirname);//import entities of datbase
+    .loadEntity(path.join(`data`, `local`, `entities`), __dirname);//import entities of datbase
 
 //create all config the application
 //register mappers, model, repository, usecase and controllers
 //all classes and files will be available to be injected in context of application
 application
     .register(container)
-    .loadValues(['data\\mappers', 'domain\\model'], __dirname)//declare functions and files for inject 
+    .loadMiddleware([
+        path.join(`core`, `middleware`)
+    ], __dirname
+    )
+    .loadValues([
+        path.join(`data`, `mappers`), 
+        path.join(`domain`, `model`)
+    ], __dirname)//declare functions and files for inject 
     .loadModules([
-        'data\\repository\\*.ts',
-        'domain\\usecase\\*.ts'
+        path.join(`data`, `repository`, `*.*`),
+        path.join(`domain`, `usecase`, `**`, `*.*`)
     ], __dirname)//load modules core of your application to inject
-    .loadRoutes('presentation\\controllers\\*.ts', __dirname)//declares routes from api to server
+    .loadRoutes(
+        path.join(`presentation`, `controllers`, `*.*`)
+    , __dirname)//declares routes from api to server
+    .loadDatabase(
+        database
+            .register(container)
+            .configure({...})//connection sequelize
+            .loadEntity(
+                path.join(`data`, `local`, `entities`),
+                __dirname
+            )
+    )
     .start(process.env.PORT || 3000)//get informations by .env
     .catch((e: any) => {
         logger.error(e.stack);//log all error stack
@@ -233,6 +253,36 @@ class UserRepository extends BaseRepository {
 export default UserRepository;
 ```
 
+### How to config Middlewares
+Most of the time, we need to add middleware to our api In a simple case, add Middleware to add an ID to identify a request made.
+
+Observation: An order that is being executed is an order that is in the folder (alphabetical order)
+
+Example
+
+```javascript
+const crypto = require("crypto");
+ 
+export = (req: any, res: any, next: any) => {
+    const id = crypto.randomBytes(10).toString("hex");
+    req.requestId = id;
+    next()
+}
+```
+
+Add this middleware in our application
+
+```javascript
+import path from 'path';
+ 
+application
+    .register(container)
+    .loadMiddleware([
+        path.join(`core`, `middlewares`),//or [core//middlewares]
+    ], __dirname)//add any middlewares
+
+```
+
 ### How to config Database
 
 All database configuration is based on Sequelize, so the use of any database is dynamic and there is a working pattern
@@ -240,14 +290,23 @@ All database configuration is based on Sequelize, so the use of any database is 
 To specify the bank registration data, it is necessary to use the settings in environment variables
 The module itself can see the values and make the connection normally
 
-```
-DB_USERNAME=db_username
-DB_PASSWORD=yourpassword
-DB_NAME=db_name
-DB_HOST=localhost
-DB_DIALECT=postgres
-
-PORT=8081
+```javascript
+application.loadDatabase(
+        database
+            .register(container)
+            .configure({
+                host: process.env.DB_HOST,
+                dialect: process.env.DB_DIALECT,
+                database: process.env.DB_NAME,
+                username: process.env.DB_USERNAME,
+                password: process.env.DB_PASSWORD,
+                options: { logging: false }
+            })
+            .loadEntity(
+                path.join(`data`, `local`, `entities`),
+                __dirname
+            )
+    )
 ```
 
 ## Dependencies
