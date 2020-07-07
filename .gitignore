@@ -29,3 +29,6 @@ dist/
 
 # Scripts
 *.sh
+
+# Env
+.env
