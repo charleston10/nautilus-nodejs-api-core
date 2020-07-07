@@ -16,6 +16,8 @@ Install with `npm`
 
 ```npm i nautilus-nodejs-api-core --save```
 
+Npm Package https://www.npmjs.com/package/nautilus-nodejs-api-core
+
 ## Sample
 
 Repo https://github.com/charleston10/nautilus-nodejs-api-users-sample.git
