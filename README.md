@@ -1,4 +1,7 @@
-# Nautilustar API Core
+# DEPRECATED Nautilustar API Core
+
+# > You can use NestJS (https://docs.nestjs.com/) <
+
 
 NautilusStar API Core is a standard feature set of an api
 
